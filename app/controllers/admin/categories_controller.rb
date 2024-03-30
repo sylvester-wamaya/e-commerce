@@ -17,6 +17,7 @@ class Admin::CategoriesController < AdminController
 
   # GET /admin/categories/1/edit
   def edit
+
   end
 
   # POST /admin/categories or /admin/categories.json
@@ -65,6 +66,6 @@ class Admin::CategoriesController < AdminController
 
     # Only allow a list of trusted parameters through.
     def admin_category_params
-      params.require(:admin_category).permit(:name, :description)
+      params.require(:category).permit(:name, :description)
     end
 end
