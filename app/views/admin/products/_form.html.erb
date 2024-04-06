@@ -37,6 +37,10 @@
   </div>
 
   <div class="my-5">
+  <%= link_to "Product Stock", admin_product_stocks_path(admin_product), class:"underline" %>
+  </div>
+
+  <div class="my-5">
     <%if admin_product.images.any?%>
       <% admin_product.images.each do |image| %>
         <%= image_tag image, class: "w-20 h-20 object-cover rounded-md inline-block" %>
