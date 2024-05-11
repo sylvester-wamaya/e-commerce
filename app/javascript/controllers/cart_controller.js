@@ -28,4 +28,25 @@ export default class extends Controller {
     let totalContaner = document.getElementById('total')
     totalContaner.appendChild(totalEl)
   }
+  clear() {
+    localStorage.removeItem('cart')
+    window.location.reload()
+    // this.element.innerHTML = ''
+    // const totalEl = document.createElement('div')
+    // totalEl.innerText = `Total: $0.00`
+    // let totalContaner = document.getElementById('total')
+    // totalContaner.appendChild(totalEl)
+  }
+
+  removeFromCart(event) {
+    const cart = JSON.parse(localStorage.getItem('cart'))
+    const id = event.target.value
+    const index = cart.findIndex(item => item.id === id)
+    cart.splice(index, 1)
+    localStorage.setItem('cart', JSON.stringify(cart))
+    window.location.reload()
+  }
 }
+
+
+
