@@ -46,6 +46,45 @@ export default class extends Controller {
     localStorage.setItem('cart', JSON.stringify(cart))
     window.location.reload()
   }
+  checkout() { 
+    console.log('Checking out')
+    const cart = JSON.parse(localStorage.getItem('cart'))
+    const payload = {
+      authenticity_token: "",
+      cart: cart
+    }
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content
+    fetch('/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        "X-CSRF-Token": csrfToken
+      },
+      body: JSON.stringify(payload)
+    }).then(response => {
+      if(response.ok) {
+        window.location.href = body.url
+      }
+      else {
+        const errorEl = document.createElement('div')
+        errorEl.innerText = `Error checking out. ${body.error}`
+        let errorContainer = document.getElementById('errorContainer')
+        errorContainer.appendChild(errorEl)
+      }
+    }).then(data => {
+      console.log(data)
+    })
+
+    const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    const stripe = Stripe('pk_test_51J4Kb4D4X1tY5RgX4f3V3V7fJ8V7d2Zr2Qv9z7Z8iW2zvFQ4V0m4yqYVwVv9cLm5KQF5qJ6g1uG4L2w2t0YQ1X8b00J8JwJZv5')
+    stripe.redirectToCheckout({
+      lineItems: cart.map(item => ({price: item.priceId, quantity: item.quantity})),
+      mode: 'payment',
+      successUrl: 'http://localhost:3000/',
+      cancelUrl: 'http://localhost:3000/cart'
+    })
+  }
 }
 
 
