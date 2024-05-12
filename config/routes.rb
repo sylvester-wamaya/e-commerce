@@ -28,5 +28,7 @@ Rails.application.routes.draw do
 
    get "cart" => "carts#show"
 
+   post "checkout" => "checkouts#create"
+
    
 end
